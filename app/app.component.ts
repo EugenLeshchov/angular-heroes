@@ -19,6 +19,11 @@ const HEROES: Hero[] = [
     styleUrls: ["app/heroes-list.css"]
 })
 export class AppComponent {
+    selectedHero: Hero;
     title: string = 'Tour of Heroes';
     heroes = HEROES;
+
+    onSelect(hero: Hero): void {
+        this.selectedHero = hero;
+    }
 }
