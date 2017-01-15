@@ -1,25 +1,32 @@
-import { Component } from "@angular/core";
-import { Hero } from './hero';
+import { Component, OnInit } from "@angular/core";
 
-const HEROES: Hero[] = [
-    { id: 1, name: 'Alinanas' },
-    { id: 2, name: 'Eurenius' },
-    { id: 3, name: 'Kostya Fedirich'},
-    { id: 4, name: 'Mrs. Vospetka'},
-    { id: 5, name: 'Mr. Dekan'}
-];
+import { Hero } from './hero';
+import { HeroService } from './hero.service';
 
 @Component({
     selector: "my-app",
     templateUrl: "app/app.component.html",
-    styleUrls: ["app/heroes-list.css"]
+    styleUrls: ["app/heroes-list.css"],
+    providers: [HeroService]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
     selectedHero: Hero;
     title: string = 'Tour of Heroes';
-    heroes = HEROES;
+    heroes: Hero[];
+
+    constructor(private heroService: HeroService) { }
 
     onSelect(hero: Hero): void {
         this.selectedHero = hero;
+    }
+
+    getHeroes(): void {
+        this.heroService.getHeroes().then(heroes => {
+            this.heroes = heroes;
+        });
+    }
+
+    ngOnInit(): void {
+        this.getHeroes();
     }
 }
